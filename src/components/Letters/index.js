@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import BaseButton from "../Button";
 
 const qwerty = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -43,7 +44,7 @@ const Container = styled("div")`
   align-items: center;
   flex-direction: column;
 `;
-const Button = styled("button")`
+const Button = styled(BaseButton)`
   height: 3rem;
   width: 3rem;
   font-size: 2rem;
@@ -64,6 +65,10 @@ const Button = styled("button")`
     if (p.isWrong) return `${prefix} red`;
     return `${prefix} black`;
   }};
-  border-radius: 4px;
+  box-shadow: ${(p) => {
+    if (p.isCorrect || p.isWrong) return "2px 2px";
+  }};
   text-transform: uppercase;
+  min-width: unset;
+  padding: unset;
 `;

@@ -18,7 +18,7 @@ const Container = styled("div")`
   height: 50px;
   width: 50px;
   margin: 25px;
-  border-bottom: solid 2px black;
+  border: solid 2px black;
   font-size: 2rem;
   text-transform: uppercase;
 `;

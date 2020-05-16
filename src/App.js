@@ -10,6 +10,7 @@ const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 const totalChances = 9;
 
 function App({ word }) {
+  const transitionNode = React.useRef(null);
   const [state, dispatch] = React.useReducer(gameReducer, initialState);
 
   const getWord = React.useCallback(() => {
@@ -38,7 +39,12 @@ function App({ word }) {
         onGuess={(letter) => dispatch(guessCreator(letter))}
         letterMap={state.letterMap}
       />
-      <Transition in={state.lettersLeft === 0} timeout={150} unmountOnExit>
+      <Transition
+        nodeRef={transitionNode}
+        in={state.lettersLeft === 0}
+        timeout={150}
+        unmountOnExit
+      >
         {(state) => <Win transitionState={state} onReset={() => getWord()} />}
       </Transition>
     </Container>

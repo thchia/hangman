@@ -8,6 +8,8 @@ import {
   EXITING,
 } from "react-transition-group/Transition";
 
+import BaseButton from "../Button";
+
 function Win({ onReset, transitionState }) {
   return ReactDOM.createPortal(
     <Container transitionState={transitionState}>
@@ -56,11 +58,6 @@ const Circle = styled("div")`
   background-color: white;
   font-size: 3rem;
 `;
-const Button = styled("button")`
+const Button = styled(BaseButton)`
   font-size: 2rem;
-  background-color: white;
-  border: solid 1px black;
-  border-radius: 4px;
-  padding: 10px 0px;
-  min-width: 200px;
 `;
