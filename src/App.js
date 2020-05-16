@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { Transition } from "react-transition-group";
 
 import Results from "./components/Results";
 import Letters from "./components/Letters";
+import Win from "./components/Win";
 
 const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 const totalChances = 9;
@@ -10,17 +12,22 @@ const totalChances = 9;
 function App({ word }) {
   const [state, dispatch] = React.useReducer(gameReducer, initialState);
 
-  React.useEffect(() => {
+  const getWord = React.useCallback(() => {
+    dispatch(resetCreator());
     if (word) {
       dispatch(setupCreator(word.toLowerCase()));
     } else {
-      fetch(wordUrl)
+      return fetch(wordUrl)
         .then((res) => res.json())
-        .then(([randomWord]) =>
-          dispatch(setupCreator(randomWord.toLowerCase()))
-        );
+        .then(([randomWord]) => {
+          dispatch(setupCreator(randomWord.toLowerCase()));
+        });
     }
   }, [word]);
+
+  React.useEffect(() => {
+    getWord();
+  }, [getWord, word]);
 
   return (
     <Container>
@@ -31,6 +38,9 @@ function App({ word }) {
         onGuess={(letter) => dispatch(guessCreator(letter))}
         letterMap={state.letterMap}
       />
+      <Transition in={state.lettersLeft === 0} timeout={150} unmountOnExit>
+        {(state) => <Win transitionState={state} onReset={() => getWord()} />}
+      </Transition>
     </Container>
   );
 }
@@ -51,11 +61,13 @@ const initialState = {
 
 function gameReducer(state, action) {
   switch (action.type) {
+    case "RESET":
+      return initialState;
     case "SETUP":
       if (!action.payload) throw new Error("Word is required to setup game");
       return {
         missCount: 0,
-        lettersLeft: action.payload.length,
+        lettersLeft: unique(action.payload).length,
         answerArray: action.payload.split(""),
         letterMap: emptyLetterMap,
       };
@@ -99,6 +111,15 @@ function guessCreator(letter) {
     type: "GUESS",
     payload: letter,
   };
+}
+function resetCreator() {
+  return {
+    type: "RESET",
+  };
+}
+function unique(arr) {
+  const set = new Set(arr);
+  return [...set];
 }
 
 const Container = styled("div")`
