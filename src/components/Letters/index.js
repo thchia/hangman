@@ -44,12 +44,14 @@ const Container = styled("div")`
   flex-direction: column;
 `;
 const Button = styled("button")`
+  height: 3rem;
+  width: 3rem;
   font-size: 2rem;
   margin: 10px;
   background-color: ${(p) => {
     if (p.isCorrect) return "lightgreen";
     if (p.isWrong) return "pink";
-    return "none";
+    return "initial";
   }};
   color: ${(p) => {
     if (p.isCorrect) return "green";
@@ -63,4 +65,5 @@ const Button = styled("button")`
     return `${prefix} black`;
   }};
   border-radius: 4px;
+  text-transform: uppercase;
 `;

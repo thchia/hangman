@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 import Results from "./components/Results";
 import Letters from "./components/Letters";
@@ -22,7 +23,7 @@ function App({ word }) {
   }, [word]);
 
   return (
-    <div>
+    <Container>
       <div>Totals</div>
       <div>Remaining chances: {totalChances - state.missCount}</div>
       <Results answerArray={state.answerArray} letterMap={state.letterMap} />
@@ -30,7 +31,7 @@ function App({ word }) {
         onGuess={(letter) => dispatch(guessCreator(letter))}
         letterMap={state.letterMap}
       />
-    </div>
+    </Container>
   );
 }
 
@@ -99,3 +100,9 @@ function guessCreator(letter) {
     payload: letter,
   };
 }
+
+const Container = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

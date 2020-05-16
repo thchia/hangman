@@ -1,10 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import { createGlobalStyle } from "styled-components";
+
 import * as serviceWorker from "./serviceWorker";
+import App from "./App";
+
+const GlobalStyles = createGlobalStyle`
+  * {
+    font-family: 'Montserrat', sans-serif;
+  }
+`;
 
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalStyles />
     <App word="Singlife" />
   </React.StrictMode>,
   document.getElementById("root")

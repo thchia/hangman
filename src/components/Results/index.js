@@ -21,4 +21,5 @@ export default Results;
 
 const Container = styled("div")`
   display: flex;
+  margin: 50px 0px;
 `;
