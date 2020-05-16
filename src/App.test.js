@@ -22,7 +22,7 @@ describe("Hangman game", () => {
     guessLetter("s");
     // Assert
     getByText(resultsContainer, "s");
-    expect(queryByText(winText)).tobeNull();
+    expect(queryByText(winText)).toBeNull();
     expect(queryByText(loseText)).toBeNull();
   });
   it("handles wrong guess", () => {
@@ -31,7 +31,7 @@ describe("Hangman game", () => {
     const resultsContainer = getByTestId("results");
     const guessLetter = createGuessLetter(letterChoicesContainer);
 
-    guessLetter("s");
+    guessLetter("z");
 
     expect(queryByText(resultsContainer, "z")).toBeNull();
   });
@@ -39,12 +39,12 @@ describe("Hangman game", () => {
     const { getByTestId } = render(<App word={sampleWord} />);
     const letterChoicesContainer = getByTestId("letter-choices");
     const letterChoice = getByText(letterChoicesContainer, "s");
-    expect(letterChoice).closest("button").not.toHaveAttribute("disabled");
+    expect(letterChoice.closest("button")).not.toHaveAttribute("disabled");
     const guessLetter = createGuessLetter(letterChoicesContainer);
 
     guessLetter("s");
 
-    expect(letterChoice).closest("button").toHaveAttribute("disabled");
+    expect(letterChoice.closest("button")).toHaveAttribute("disabled");
   });
   it("detects win", () => {
     const { getByTestId, getByText } = render(<App word={sampleWord} />);

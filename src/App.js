@@ -1,8 +1,10 @@
 import React from "react";
 
 import Results from "./components/Results";
+import Letters from "./components/Letters";
 
 const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
+const totalChances = 9;
 
 function App({ word }) {
   const [state, dispatch] = React.useReducer(gameReducer, initialState);
@@ -22,9 +24,12 @@ function App({ word }) {
   return (
     <div>
       <div>Totals</div>
-      <div>Remaining chances</div>
+      <div>Remaining chances: {totalChances - state.missCount}</div>
       <Results answerArray={state.answerArray} letterMap={state.letterMap} />
-      <div>Letter choices</div>
+      <Letters
+        onGuess={(letter) => dispatch(guessCreator(letter))}
+        letterMap={state.letterMap}
+      />
     </div>
   );
 }
