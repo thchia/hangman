@@ -10,7 +10,7 @@ function Hangman({ missCount }) {
     }
   }, [missCount]);
   return (
-    <svg viewBox="0 0 100 100" width="40%" xmlns="http://www.w3.org/2000/svg">
+    <Container viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <g id="person" stroke="black" fill="none" transform="translate(40 20)">
         {[
           <Circle
@@ -60,12 +60,15 @@ function Hangman({ missCount }) {
           />,
         ].slice(0, Math.max(missCount - 5, 0))}
       </g>
-    </svg>
+    </Container>
   );
 }
 
 export default Hangman;
 
+const Container = styled("svg")`
+  width: 40%;
+`;
 const drawKf = keyframes`
   to {
     stroke-dashoffset: 0;

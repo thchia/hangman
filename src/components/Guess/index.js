@@ -1,6 +1,8 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
+import { devices } from "../../styles/medias";
+
 function Guess({ isGuessed, children }) {
   return (
     <Container>
@@ -16,11 +18,15 @@ const Container = styled("div")`
   justify-content: center;
   align-items: center;
   height: 50px;
-  width: 50px;
-  margin: 25px;
-  border: solid 2px black;
+  width: 30px;
+  margin: 10px;
+  border-bottom: solid 2px black;
   font-size: 2rem;
   text-transform: uppercase;
+  @media ${devices.tablet} {
+    margin: 5px 25px;
+    width: 50px;
+  }
 `;
 const fadeIn = keyframes`
   from {
