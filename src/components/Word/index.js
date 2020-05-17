@@ -4,10 +4,10 @@ import styled from "styled-components";
 import Guess from "../Guess";
 import { devices } from "../../styles/medias";
 
-function Word({ answerArray, letterMap }) {
+function Word({ answerData, letterMap }) {
   return (
     <Container data-testid="results">
-      {answerArray.map((letter, index) => {
+      {answerData.map((letter, index) => {
         const isGuessed = letterMap[letter] === 1;
         return (
           <Guess key={`${letter}-${index}`} isGuessed={isGuessed}>
