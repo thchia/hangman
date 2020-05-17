@@ -70,11 +70,11 @@ describe("Hangman game", () => {
     guessLetter("b");
     guessLetter("c");
     guessLetter("d");
-    guessLetter("g");
     guessLetter("h");
     guessLetter("j");
     guessLetter("k");
     guessLetter("m");
+    guessLetter("o");
 
     getByText(loseText);
   });
