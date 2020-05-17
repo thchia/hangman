@@ -11,6 +11,7 @@ const sampleWord = "Singlife";
 const losingWord = "abcdhjkmo";
 const winText = "You won!";
 const loseText = "You lost, sorry";
+const tryAgainText = "Play Again";
 const hangmanSegments = [
   "head",
   "body",
@@ -67,14 +68,37 @@ describe("Hangman game", () => {
 
     getByText(winText);
   });
+  it("records wins", () => {
+    const { getByTestId, getByText } = renderSubject();
+    const letterChoicesContainer = getByTestId("letter-choices");
+    const guessWord = createGuessWord(letterChoicesContainer);
+    getByText("Total Wins: 0");
+
+    guessWord("singlife");
+
+    fireEvent.click(getByText(tryAgainText));
+    getByText("Total Wins: 1");
+  });
   it("detects loss", () => {
-    const { getByTestId, getByText, getByTitle } = renderSubject();
+    const { getByTestId, getByText } = renderSubject();
     const letterChoicesContainer = getByTestId("letter-choices");
     const guessWord = createGuessWord(letterChoicesContainer);
 
     guessWord(losingWord);
 
     getByText(loseText);
+  });
+  it("records losses", () => {
+    const { getByTestId, getByText } = renderSubject();
+    const letterChoicesContainer = getByTestId("letter-choices");
+    const guessWord = createGuessWord(letterChoicesContainer);
+    getByText("Total Losses: 0");
+
+    guessWord(losingWord);
+
+    getByText(loseText);
+    fireEvent.click(getByText(tryAgainText));
+    getByText("Total Losses: 1");
   });
   it("only draws hangman on wrong guess", () => {
     const {

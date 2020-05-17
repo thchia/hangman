@@ -6,6 +6,7 @@ import Word from "./components/Word";
 import Letters from "./components/Letters";
 import Result from "./components/Result";
 import Hangman from "./components/Hangman";
+import Totals from "./components/Totals";
 
 const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 const totalChances = 9;
@@ -35,7 +36,7 @@ function App({ word }) {
 
   return (
     <Container>
-      <div>Totals</div>
+      <Totals wins={state.totalWins} losses={state.totalLosses} />
       <Hangman missCount={state.missCount} />
       <Word answerArray={state.answerArray} letterMap={state.letterMap} />
       <Letters
@@ -66,6 +67,8 @@ const emptyLetterMap = "abcdefghijklmnopqrstuvwxyz"
     return { ...acc, [curr]: 0 };
   }, {});
 const initialState = {
+  totalWins: 0,
+  totalLosses: 0,
   missCount: 0,
   lettersLeft: -1,
   answerArray: [],
@@ -75,10 +78,19 @@ const initialState = {
 function gameReducer(state, action) {
   switch (action.type) {
     case "RESET":
-      return initialState;
-    case "SETUP":
-      if (!action.payload) throw new Error("Word is required to setup game");
       return {
+        ...initialState,
+        totalWins: state.totalWins,
+        totalLosses: state.totalLosses,
+      };
+    case "SETUP":
+      if (!action.payload) {
+        console.warn("Word is required to setup game");
+        return state;
+      }
+      return {
+        totalWins: state.totalWins,
+        totalLosses: state.totalLosses,
         missCount: 0,
         lettersLeft: unique(action.payload).length,
         answerArray: action.payload.split(""),
@@ -86,23 +98,32 @@ function gameReducer(state, action) {
       };
     case "GUESS":
       const letter = action.payload;
-      if (!letter) throw new Error("You cannot perform an empty guess");
-      const isGuessed = state.letterMap[letter] !== 0;
-      if (isGuessed) return state;
+      if (!letter) {
+        console.warn("You cannot perform an empty guess");
+        return state;
+      }
+      const isPreviouslyGuessed = state.letterMap[letter] !== 0;
+      if (isPreviouslyGuessed) return state;
       const isCorrect = state.answerArray.includes(letter);
       if (isCorrect) {
+        const newLettersLeft = state.lettersLeft - 1;
+        const isWon = newLettersLeft === 0;
         return {
           ...state,
-          lettersLeft: state.lettersLeft - 1,
+          totalWins: isWon ? state.totalWins + 1 : state.totalWins,
+          lettersLeft: newLettersLeft,
           letterMap: {
             ...state.letterMap,
             [letter]: 1,
           },
         };
       } else {
+        const newMissCount = state.missCount + 1;
+        const isLost = newMissCount === totalChances;
         return {
           ...state,
-          missCount: state.missCount + 1,
+          totalLosses: isLost ? state.totalLosses + 1 : state.totalLosses,
+          missCount: newMissCount,
           letterMap: {
             ...state.letterMap,
             [letter]: -1,
