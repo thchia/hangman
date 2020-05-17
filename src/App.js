@@ -51,7 +51,7 @@ function App({ word }) {
       >
         {(state) => (
           <Result transitionState={state} onReset={() => getWord()}>
-            {hasWon ? <p>You won!</p> : <p>You lost, sorry</p>}
+            {hasWon ? "You won!" : "You lost, sorry"}
           </Result>
         )}
       </Transition>

@@ -14,7 +14,7 @@ function Result({ onReset, transitionState, children }) {
   return ReactDOM.createPortal(
     <Container transitionState={transitionState}>
       <Circle>
-        {children}
+        <Paragraph>{children}</Paragraph>
         <Button onClick={onReset}>Play Again</Button>
       </Circle>
     </Container>,
@@ -52,12 +52,15 @@ const Circle = styled("div")`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 30rem;
-  height: 30rem;
-  border-radius: 15rem;
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
   background-color: white;
-  font-size: 3rem;
+  font-size: 2rem;
+`;
+const Paragraph = styled("p")`
+  margin: 10px 0px;
 `;
 const Button = styled(BaseButton)`
-  font-size: 2rem;
+  font-size: 1rem;
 `;

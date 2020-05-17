@@ -17,15 +17,16 @@ const Container = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  width: 30px;
+  height: 3rem;
+  width: 2rem;
   margin: 10px;
   border-bottom: solid 2px black;
   font-size: 2rem;
   text-transform: uppercase;
+
   @media ${devices.tablet} {
     margin: 5px 25px;
-    width: 50px;
+    width: 3rem;
   }
 `;
 const fadeIn = keyframes`
