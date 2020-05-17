@@ -68,6 +68,7 @@ export default Hangman;
 
 const Container = styled("svg")`
   width: 40%;
+  max-width: 400px;
 `;
 const drawKf = keyframes`
   to {

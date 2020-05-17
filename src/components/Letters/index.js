@@ -10,7 +10,7 @@ const qwerty = [
   ["z", "x", "c", "v", "b", "n", "m"],
 ];
 
-function Letters({ onGuess, letterMap }) {
+function Letters({ onGuess, letterMap, disabled }) {
   return (
     <Container data-testid="letter-choices">
       {qwerty.map((row) => (
@@ -18,7 +18,7 @@ function Letters({ onGuess, letterMap }) {
           {row.map((letter) => {
             const isCorrectGuess = letterMap[letter] === 1;
             const isWrongGuess = letterMap[letter] === -1;
-            const isDisabled = isCorrectGuess || isWrongGuess;
+            const isDisabled = isCorrectGuess || isWrongGuess || disabled;
             return (
               <Button
                 key={letter}
@@ -81,6 +81,9 @@ const Button = styled(BaseButton)`
   text-transform: uppercase;
   min-width: unset;
   padding: unset;
+  :disabled {
+    opacity: 0.5;
+  }
 
   @media ${devices.tablet} {
     height: 3rem;

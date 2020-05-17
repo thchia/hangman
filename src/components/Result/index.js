@@ -10,9 +10,10 @@ import {
 
 import BaseButton from "../Button";
 
-function Result({ onReset, transitionState, children }) {
+function Result({ onReset, transitionState, children, answer }) {
   return ReactDOM.createPortal(
     <Container transitionState={transitionState}>
+      <Answer>{answer}</Answer>
       <Circle>
         <Paragraph>{children}</Paragraph>
         <Button onClick={onReset}>Play Again</Button>
@@ -26,6 +27,7 @@ export default Result;
 
 const Container = styled("aside")`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -63,4 +65,12 @@ const Paragraph = styled("p")`
 `;
 const Button = styled(BaseButton)`
   font-size: 1rem;
+`;
+const Answer = styled("p")`
+  background-color: white;
+  border-radius: 4px;
+  margin: 10px 0px;
+  font-size: 2rem;
+  padding: 10px 20px;
+  font-weight: bold;
 `;

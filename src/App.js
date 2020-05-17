@@ -13,6 +13,8 @@ const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 
 function App({ word }) {
   const transitionNode = React.useRef(null);
+  const [isFetchingWord, setIsFetchingWord] = React.useState(false);
+  const [fetchError, setFetchError] = React.useState("");
   const [state, dispatch] = Game.useGame();
   const hasWon = Game.hasWonSelector(state);
   const hasLost = Game.hasLostSelector(state);
@@ -22,10 +24,18 @@ function App({ word }) {
     if (word) {
       dispatch(Game.setupCreator(word.toLowerCase()));
     } else {
+      setIsFetchingWord(true);
+      setFetchError("");
       return fetch(wordUrl)
         .then((res) => res.json())
         .then(([randomWord]) => {
           dispatch(Game.setupCreator(randomWord.toLowerCase()));
+        })
+        .catch(() => {
+          setFetchError("Could not fetch word. Please refresh to retry.");
+        })
+        .finally(() => {
+          setIsFetchingWord(false);
         });
     }
   }, [word, dispatch]);
@@ -38,8 +48,14 @@ function App({ word }) {
     <Container>
       <Totals wins={state.totalWins} losses={state.totalLosses} />
       <Hangman missCount={state.missCount} />
-      <Word answerData={state.answerData} letterMap={state.letterMap} />
+      {fetchError}
+      {isFetchingWord ? (
+        "Getting a word..."
+      ) : (
+        <Word answerData={state.answerData} letterMap={state.letterMap} />
+      )}
       <Letters
+        disabled={isFetchingWord}
         onGuess={(letter) => dispatch(Game.guessCreator(letter))}
         letterMap={state.letterMap}
       />
@@ -49,8 +65,12 @@ function App({ word }) {
         timeout={150}
         unmountOnExit
       >
-        {(state) => (
-          <Result transitionState={state} onReset={() => getWord()}>
+        {(transitionState) => (
+          <Result
+            transitionState={transitionState}
+            onReset={() => getWord()}
+            answer={state.answerData.join("")}
+          >
             {hasWon ? "You won!" : "You lost, sorry"}
           </Result>
         )}
