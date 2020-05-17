@@ -8,8 +8,20 @@ import {
 import App from "./App";
 
 const sampleWord = "Singlife";
+const losingWord = "abcdhjkmo";
 const winText = "You won!";
 const loseText = "You lost, sorry";
+const hangmanSegments = [
+  "head",
+  "body",
+  "arms",
+  "right-leg",
+  "left-leg",
+  "noose",
+  "gallows-top",
+  "gallows-height",
+  "gallows-floor",
+];
 
 describe("Hangman game", () => {
   it("registers correct guess", () => {
@@ -49,39 +61,50 @@ describe("Hangman game", () => {
   it("detects win", () => {
     const { getByTestId, getByText } = renderSubject();
     const letterChoicesContainer = getByTestId("letter-choices");
-    const guessLetter = createGuessLetter(letterChoicesContainer);
+    const guessWord = createGuessWord(letterChoicesContainer);
 
-    guessLetter("s");
-    guessLetter("i");
-    guessLetter("n");
-    guessLetter("g");
-    guessLetter("l");
-    guessLetter("f");
-    guessLetter("e");
+    guessWord("singlife");
 
     getByText(winText);
   });
   it("detects loss", () => {
-    const { getByTestId, getByText } = renderSubject();
+    const { getByTestId, getByText, getByTitle } = renderSubject();
+    const letterChoicesContainer = getByTestId("letter-choices");
+    const guessWord = createGuessWord(letterChoicesContainer);
+
+    guessWord(losingWord);
+
+    getByText(loseText);
+  });
+  it("only draws hangman on wrong guess", () => {
+    const {
+      getByTestId,
+      getByText,
+      getByTitle,
+      queryByTitle,
+    } = renderSubject();
     const letterChoicesContainer = getByTestId("letter-choices");
     const guessLetter = createGuessLetter(letterChoicesContainer);
+    const guessWord = createGuessWord(letterChoicesContainer);
 
-    guessLetter("a");
-    guessLetter("b");
-    guessLetter("c");
-    guessLetter("d");
-    guessLetter("h");
-    guessLetter("j");
-    guessLetter("k");
-    guessLetter("m");
-    guessLetter("o");
+    expect(queryByTitle("head")).toBeNull();
+    guessLetter("s");
+    expect(queryByTitle("head")).toBeNull();
+    guessWord(losingWord, (_, i) => getByTitle(hangmanSegments[i]));
 
     getByText(loseText);
   });
 });
 
+const createGuessWord = (container) => (word, letterGuessedCb) => {
+  const guessLetter = createGuessLetter(container);
+  word.split("").forEach((letter, i) => {
+    guessLetter(letter);
+    letterGuessedCb && letterGuessedCb(letter, i);
+  });
+};
 const createGuessLetter = (container) => (letter) => {
-  return fireEvent.click(getByText(container, letter));
+  fireEvent.click(getByText(container, letter));
 };
 
 function renderSubject() {

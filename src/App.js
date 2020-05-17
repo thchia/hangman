@@ -5,6 +5,7 @@ import { Transition } from "react-transition-group";
 import Word from "./components/Word";
 import Letters from "./components/Letters";
 import Result from "./components/Result";
+import Hangman from "./components/Hangman";
 
 const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 const totalChances = 9;
@@ -35,7 +36,7 @@ function App({ word }) {
   return (
     <Container>
       <div>Totals</div>
-      <div>Remaining chances: {totalChances - state.missCount}</div>
+      <Hangman missCount={state.missCount} />
       <Word answerArray={state.answerArray} letterMap={state.letterMap} />
       <Letters
         onGuess={(letter) => dispatch(guessCreator(letter))}
