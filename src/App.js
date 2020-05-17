@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Transition } from "react-transition-group";
 
-import Results from "./components/Results";
+import Word from "./components/Word";
 import Letters from "./components/Letters";
-import Win from "./components/Win";
+import Result from "./components/Result";
 
 const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 const totalChances = 9;
@@ -12,6 +12,8 @@ const totalChances = 9;
 function App({ word }) {
   const transitionNode = React.useRef(null);
   const [state, dispatch] = React.useReducer(gameReducer, initialState);
+  const hasWon = hasWonSelector(state);
+  const hasLost = hasLostSelector(state);
 
   const getWord = React.useCallback(() => {
     dispatch(resetCreator());
@@ -34,18 +36,22 @@ function App({ word }) {
     <Container>
       <div>Totals</div>
       <div>Remaining chances: {totalChances - state.missCount}</div>
-      <Results answerArray={state.answerArray} letterMap={state.letterMap} />
+      <Word answerArray={state.answerArray} letterMap={state.letterMap} />
       <Letters
         onGuess={(letter) => dispatch(guessCreator(letter))}
         letterMap={state.letterMap}
       />
       <Transition
         nodeRef={transitionNode}
-        in={state.lettersLeft === 0}
+        in={hasWon || hasLost}
         timeout={150}
         unmountOnExit
       >
-        {(state) => <Win transitionState={state} onReset={() => getWord()} />}
+        {(state) => (
+          <Result transitionState={state} onReset={() => getWord()}>
+            {hasWon ? <p>You won!</p> : <p>You lost, sorry</p>}
+          </Result>
+        )}
       </Transition>
     </Container>
   );
@@ -122,6 +128,12 @@ function resetCreator() {
   return {
     type: "RESET",
   };
+}
+function hasWonSelector(state) {
+  return state.lettersLeft === 0;
+}
+function hasLostSelector(state) {
+  return totalChances - state.missCount === 0;
 }
 function unique(arr) {
   const set = new Set(arr);

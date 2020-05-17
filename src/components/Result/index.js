@@ -10,11 +10,11 @@ import {
 
 import BaseButton from "../Button";
 
-function Win({ onReset, transitionState }) {
+function Result({ onReset, transitionState, children }) {
   return ReactDOM.createPortal(
     <Container transitionState={transitionState}>
       <Circle>
-        <p>You won!</p>
+        {children}
         <Button onClick={onReset}>Play Again</Button>
       </Circle>
     </Container>,
@@ -22,7 +22,7 @@ function Win({ onReset, transitionState }) {
   );
 }
 
-export default Win;
+export default Result;
 
 const Container = styled("aside")`
   display: flex;

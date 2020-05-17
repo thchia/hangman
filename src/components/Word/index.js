@@ -2,7 +2,7 @@ import React from "react";
 import Guess from "../Guess";
 import styled from "styled-components";
 
-function Results({ answerArray, letterMap }) {
+function Word({ answerArray, letterMap }) {
   return (
     <Container data-testid="results">
       {answerArray.map((letter, index) => {
@@ -17,7 +17,7 @@ function Results({ answerArray, letterMap }) {
   );
 }
 
-export default Results;
+export default Word;
 
 const Container = styled("div")`
   display: flex;
