@@ -10,7 +10,7 @@ const qwerty = [
   ["z", "x", "c", "v", "b", "n", "m"],
 ];
 
-function Letters({ onGuess, letterMap, disabled }) {
+const Letters = ({ onGuess, letterMap, disabled }) => {
   return (
     <Container data-testid="letter-choices">
       {qwerty.map((row) => (
@@ -35,7 +35,7 @@ function Letters({ onGuess, letterMap, disabled }) {
       ))}
     </Container>
   );
-}
+};
 
 export default Letters;
 

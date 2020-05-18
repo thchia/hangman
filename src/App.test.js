@@ -131,11 +131,11 @@ const createGuessLetter = (container) => (letter) => {
   fireEvent.click(getByText(container, letter));
 };
 
-function renderSubject() {
+const renderSubject = () => {
   return render(
     <>
       <App word={sampleWord} />
       <div id="portal-root"></div>
     </>
   );
-}
+};

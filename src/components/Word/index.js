@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Guess from "../Guess";
 import { devices } from "../../styles/medias";
 
-function Word({ answerData, letterMap }) {
+const Word = ({ answerData, letterMap }) => {
   return (
     <Container data-testid="results">
       {answerData.map((letter, index) => {
@@ -17,7 +17,7 @@ function Word({ answerData, letterMap }) {
       })}
     </Container>
   );
-}
+};
 
 export default Word;
 

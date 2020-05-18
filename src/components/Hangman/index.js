@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
 
-function Hangman({ missCount }) {
+const Hangman = ({ missCount }) => {
   React.useEffect(() => {
     if (missCount > 9) {
       console.warn(
@@ -62,7 +62,7 @@ function Hangman({ missCount }) {
       </g>
     </Container>
   );
-}
+};
 
 export default Hangman;
 

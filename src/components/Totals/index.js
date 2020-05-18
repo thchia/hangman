@@ -3,14 +3,14 @@ import styled from "styled-components";
 
 import { devices } from "../../styles/medias";
 
-function Totals({ wins, losses }) {
+const Totals = ({ wins, losses }) => {
   return (
     <Container>
       <Paragraph>Total Wins: {wins}</Paragraph>
       <Paragraph>Total Losses: {losses}</Paragraph>
     </Container>
   );
-}
+};
 
 export default Totals;
 

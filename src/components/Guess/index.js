@@ -3,13 +3,13 @@ import styled, { keyframes } from "styled-components";
 
 import { devices } from "../../styles/medias";
 
-function Guess({ isGuessed, children }) {
+const Guess = ({ isGuessed, children }) => {
   return (
     <Container>
       {isGuessed ? <LetterContainer>{children}</LetterContainer> : null}
     </Container>
   );
-}
+};
 
 export default Guess;
 

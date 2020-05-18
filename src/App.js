@@ -11,7 +11,7 @@ import Totals from "./components/Totals";
 
 const wordUrl = "https://random-word-api.herokuapp.com/word?number=1&swear=0";
 
-function App({ word }) {
+const App = ({ word }) => {
   const transitionNode = React.useRef(null);
   const [isFetchingWord, setIsFetchingWord] = React.useState(false);
   const [fetchError, setFetchError] = React.useState("");
@@ -77,7 +77,7 @@ function App({ word }) {
       </Transition>
     </Container>
   );
-}
+};
 
 export default App;
 

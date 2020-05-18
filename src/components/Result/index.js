@@ -10,7 +10,7 @@ import {
 
 import BaseButton from "../Button";
 
-function Result({ onReset, transitionState, children, answer }) {
+const Result = ({ onReset, transitionState, children, answer }) => {
   return ReactDOM.createPortal(
     <Container transitionState={transitionState}>
       <Answer>{answer}</Answer>
@@ -21,7 +21,7 @@ function Result({ onReset, transitionState, children, answer }) {
     </Container>,
     document.getElementById("portal-root")
   );
-}
+};
 
 export default Result;
 

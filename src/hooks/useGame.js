@@ -2,9 +2,9 @@ import React from "react";
 
 const totalChances = 9;
 
-export function useGame() {
+export const useGame = () => {
   return React.useReducer(gameReducer, initialState);
-}
+};
 
 /**
  * Structure to easily get the guess status of a letter
@@ -36,7 +36,7 @@ const initialState = {
   letterMap: emptyLetterMap,
 };
 
-function gameReducer(state, action) {
+const gameReducer = (state, action) => {
   switch (action.type) {
     case "RESET":
       return {
@@ -94,31 +94,31 @@ function gameReducer(state, action) {
     default:
       return state;
   }
-}
-export function setupCreator(word) {
+};
+export const setupCreator = (word) => {
   return {
     type: "SETUP",
     payload: word,
   };
-}
-export function guessCreator(letter) {
+};
+export const guessCreator = (letter) => {
   return {
     type: "GUESS",
     payload: letter,
   };
-}
-export function resetCreator() {
+};
+export const resetCreator = () => {
   return {
     type: "RESET",
   };
-}
-export function hasWonSelector(state) {
+};
+export const hasWonSelector = (state) => {
   return state.lettersLeft === 0;
-}
-export function hasLostSelector(state) {
+};
+export const hasLostSelector = (state) => {
   return totalChances - state.missCount === 0;
-}
-function unique(arr) {
+};
+const unique = (arr) => {
   const set = new Set(arr);
   return [...set];
-}
+};
